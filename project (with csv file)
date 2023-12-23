@@ -1,0 +1,179 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
+#include <iomanip> 
+using namespace std;
+
+template<typename T>
+class Node {
+public:
+    T data1;
+    T data2;
+    T data3;
+    Node* next;
+
+    Node()
+    {
+        data1 = T();
+        data2 = T();
+        data3 = T();
+        next = nullptr;
+    }
+
+    Node(const T& d1, const T& d2, const T& d3, Node* n)
+    {
+        data1 = d1;
+        data2 = d2;
+        data3 = d3;
+        next = n;
+    }
+};
+
+template<typename T>
+class MyLinkedList {
+private:
+    Node<T>* head = nullptr;
+    int size = 0;
+
+public:
+    bool isEmpty() const
+    {
+        return head == nullptr;
+    }
+
+    T front() const
+    {
+        if (isEmpty())
+            throw out_of_range("The list is empty");
+        return head->data1;
+    }
+
+    T back() const
+    {
+        if (isEmpty())
+            throw out_of_range("The list is empty");
+        Node<T>* temp = head;
+
+        while (temp->next)
+            temp = temp->next;
+
+        return temp->data3;
+
+    }
+
+    void pushBack(Node<T>*newNode)
+    {
+        if (isEmpty())
+            head = newNode;
+        else
+        {
+            Node<T>* temp = head;
+            while (temp->next)
+                temp = temp->next;
+            temp->next = newNode;
+        }
+        size++;
+    }
+
+    void clear()
+    {
+        while (!isEmpty())
+        {
+            Node<T>* temp = head;
+            head = head->next;
+            delete temp;
+            size--;
+        }
+        if (size != 0)
+            throw out_of_range("There is an error in clear function");
+    }
+
+    // Destructor
+    ~MyLinkedList()
+    {
+        clear();
+    }
+
+    void print() const
+    {
+        Node<T>* temp = head;
+
+        while (temp)
+        {
+            cout << temp->data1 << "   " << temp->data2 << "   " << temp->data3 << endl;
+            temp = temp->next;
+        }
+        cout << endl;
+    }
+
+    void popFront()
+    {
+        if (isEmpty())
+        {
+            cout << "The list is already empty." << endl;
+            return;
+        }
+
+        Node<T>* temp = head;
+        head = head->next;
+
+        if (temp)
+        {
+            delete temp;
+            size--;
+        }
+        else
+        {
+
+            cout << "Error: Attempted to pop from an empty list." << endl;
+        }
+    }
+
+};
+
+
+int main()
+{
+    MyLinkedList<float>list;
+
+    ifstream file("person1-TEST.csv");
+
+    if (!file.is_open())
+    {
+        cout << "Error while opening the file" << endl;
+    }
+    else
+    {
+        cout << "File opened successfully" << endl;
+
+        string line;
+        while (getline(file, line))
+        {
+            stringstream inputString(line);
+
+            float data1, data2, data3;
+            string tempString;
+
+            getline(inputString, tempString, '\t');
+            data1 = atof(tempString.c_str());
+
+            getline(inputString, tempString, '\t');
+            data2 = atof(tempString.c_str());
+
+            getline(inputString, tempString, '\t');
+            data3 = atof(tempString.c_str());
+
+            Node<float>* temp = new Node<float>(data1, data2, data3, nullptr);
+            list.pushBack(temp);
+        }
+        file.close();
+    }
+
+    list.print();
+
+    cout << list.front();
+    cout << endl << list.back();
+
+    return 0;
+}
