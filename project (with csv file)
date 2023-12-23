@@ -155,13 +155,13 @@ int main()
             float data1, data2, data3;
             string tempString;
 
-            getline(inputString, tempString, '\t');
+            getline(inputString, tempString, ';');
             data1 = atof(tempString.c_str());
 
-            getline(inputString, tempString, '\t');
+            getline(inputString, tempString, ';');
             data2 = atof(tempString.c_str());
 
-            getline(inputString, tempString, '\t');
+            getline(inputString, tempString, ';');
             data3 = atof(tempString.c_str());
 
             Node<float>* temp = new Node<float>(data1, data2, data3, nullptr);
