@@ -106,6 +106,10 @@ public:
         }
         cout << endl;
     }
+     void print(ofstream& fout) const
+     {
+         fout << head->data1 << "   " << head->data2 << "   " << head->data3 << endl;
+     }
 
     void popFront()
     {
@@ -148,6 +152,43 @@ public:
      else
          return 3;
  }
+
+void sepWrite(ofstream& brady, ofstream& normal,ofstream &tachy)
+{
+    if (!brady.is_open() || !tachy.is_open() || !normal.is_open())
+    {
+        cout << "An Error occured in sepWrite() function while opening files" << endl;
+    }
+
+    else
+    {
+        cout << "Files opened successfully" << endl;
+
+        while (!isEmpty())
+        {
+            switch (findHeartBeat())
+            {
+            case 1:
+                print(brady);
+                break;
+            case 2:
+                print(normal);
+                break;
+            case 3:
+                print(tachy);
+                break;
+            case -1:
+                print(tachy);
+                break;
+            }
+            popFront();
+        }
+
+        brady.close();
+        tachy.close();
+        normal.close();
+    }
+}
 
 
 };
