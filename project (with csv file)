@@ -183,10 +183,6 @@ void sepWrite(ofstream& brady, ofstream& normal,ofstream &tachy)
             }
             popFront();
         }
-
-        brady.close();
-        tachy.close();
-        normal.close();
     }
 }
 
@@ -235,6 +231,9 @@ int main()
 
     cout << list.front();
     cout << endl << list.back();
+    brady.close();
+    tachy.close();
+    normal.close();
 
     return 0;
 }
